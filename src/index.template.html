@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= htmlWebpackPlugin.options.productName %></title>
+
+    <meta charset="utf-8">
+    <meta name="description" content="<%= htmlWebpackPlugin.options.productDescription %>">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (htmlWebpackPlugin.options.ctx.mode.cordova) { %>, viewport-fit=cover<% } %>">
+
+    <link rel="icon" type="image/png" href="statics/ccr-app-logo-128x128.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="statics/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="statics/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="statics/icons/favicon-96x96.png">
+    <link rel="icon" type="image/ico" href="statics/icons/favicon.ico">
+    <script src="https://apps.elfsight.com/p/platform.js" defer></script>
+    <script src="https://assets.juicer.io/embed.js" type="text/javascript"></script>
+    <link href="https://assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+      function updateFilters () {
+        document.querySelector('h1.referral').style.display='none';
+        if (document.querySelector('ul.j-share')) {
+          document.querySelector('ul.j-share').style.display='none';
+        }
+        if (document.querySelector("a.juicer-button[href*='youtube']")) {
+          document.querySelector("a.juicer-button[href*='youtube']").text='Ver no YouTube';
+        }
+        if (document.querySelector("a.juicer-button[href*='instagram']")) {
+          document.querySelector("a.juicer-button[href*='instagram']").text='Ver no Instagram';
+        }
+        var postsad = document.querySelectorAll('li.juicer-ad');
+        for (var i = 0; i < postsad.length; i++) {
+          postsad[i].style.display = 'none';
+        }
+        var time_posts = document.querySelectorAll('time.j-date');
+        for (var i = 0; i < time_posts.length; i++) {
+          let str = time_posts[i].innerText;
+          let qtd = str.split(/[a-z]/,1)
+          if (qtd[0]==='1') {
+            if (str.includes('d')) {
+              if (!str.includes('dia')) {
+                time_posts[i].innerText = str.replace('d', ' dia');
+              }
+            } else if (str.includes('mo')) {
+              time_posts[i].innerText = str.replace('mo', ' mês');
+            } else if (str.includes('y')) {
+              time_posts[i].innerText = str.replace('y', ' ano');
+            } else if (str.includes('h')) {
+              time_posts[i].innerText = str.replace('h', ' hora');
+            }
+          } else {
+            if (str.includes('d')) {
+              if (!str.includes('dia')) {
+                time_posts[i].innerText = str.replace('d', ' dias');
+              }
+            } else if (str.includes('mo')) {
+              time_posts[i].innerText = str.replace('mo', ' meses');
+            } else if (str.includes('y')) {
+              time_posts[i].innerText = str.replace('y', ' anos');
+            } else if (str.includes('h')) {
+              time_posts[i].innerText = str.replace('h', ' horas');
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- DO NOT touch the following DIV -->
+    <div id="q-app"></div>
+  </body>
+</html>
