@@ -100,6 +100,11 @@ const menuList = [
     link: '/videos'
   },
   {
+    icon: 'r_settings_voice',
+    label: 'Podcast',
+    link: '/podcast'
+  },
+  {
     icon: 'r_photo',
     label: 'Fotos',
     link: '/photos'

@@ -8,10 +8,10 @@
       <div v-show="showData">
         <!-- Banner principal -->
         <div class="elfsight-app-3b74b192-3f52-41ae-9ae1-5563df4d05fc banner1" v-show="bn1_visivel"></div>
-        <div class="elfsight-app-bf35a936-1ba3-4673-981d-bf300cf69b66 banner2" v-show="!bn1_visivel"></div>
+        <div class="elfsight-app-7dab22a6-3b95-4750-82a2-25a5336e5cd0 banner2" v-show="!bn1_visivel"></div>
         <!-- Chat -->
         <div class="elfsight-app-ea37ab68-080d-4dd2-9484-9dcb8aa3890e whatsapp1" v-show="wp1_visivel"></div>
-        <div class="elfsight-app-4646bec7-cbad-4c60-bd78-de83a759ca58 whatsapp2" v-show="!wp1_visivel"></div>
+        <div class="elfsight-app-4c2052b2-06a5-49c7-b7f4-7e9840e98de1 whatsapp2" v-show="!wp1_visivel"></div>
       </div>
     </transition>
     <q-inner-loading :showing="visible">

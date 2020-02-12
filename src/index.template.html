@@ -47,7 +47,9 @@
             } else if (str.includes('y')) {
               time_posts[i].innerText = str.replace('y', ' ano');
             } else if (str.includes('h')) {
-              time_posts[i].innerText = str.replace('h', ' hora');
+              if (!str.includes('hora')) {
+                time_posts[i].innerText = str.replace('h', ' hora');
+              }
             }
           } else {
             if (str.includes('d')) {
@@ -59,7 +61,9 @@
             } else if (str.includes('y')) {
               time_posts[i].innerText = str.replace('y', ' anos');
             } else if (str.includes('h')) {
-              time_posts[i].innerText = str.replace('h', ' horas');
+              if (!str.includes('hora')) {
+                time_posts[i].innerText = str.replace('h', ' horas');
+              }
             }
           }
         }

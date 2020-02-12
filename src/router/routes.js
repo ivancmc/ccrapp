@@ -145,6 +145,20 @@ const routes = [
         }
       }
     ]
+  },
+  {
+    path: '/podcast',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'podcast',
+        component: () => import('pages/Podcast.vue'),
+        meta: {
+          title: 'Podcast'
+        }
+      }
+    ]
   }
   // {
   //   path: '/calendar*',
