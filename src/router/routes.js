@@ -159,6 +159,21 @@ const routes = [
         }
       }
     ]
+  },
+  {
+    path: '/notificar',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'notificar',
+        component: () => import('pages/Notificar.vue'),
+        meta: {
+          title: 'Notificar',
+          authRequired: true
+        }
+      }
+    ]
   }
   // {
   //   path: '/calendar*',

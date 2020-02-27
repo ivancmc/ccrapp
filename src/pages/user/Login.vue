@@ -6,6 +6,16 @@
           color="white"
           v-if="!user"
         >
+          <div class="float-left">
+            <q-toggle
+              v-model="notifications"
+              unchecked-icon="notifications_off"
+              checked-icon="notifications_active"
+              color="blue-8"
+              @input="receber_notificacoes()"
+              ref="toggle_ntf"
+            />
+          </div>
           <div class="float-right">
             <q-btn color="grey-7" round flat icon="o_live_help">
               <q-menu anchor="bottom left" self="top middle" auto-close>
@@ -63,16 +73,15 @@
           color="white"
           v-else
         >
-          <div class="float-right" v-if="admin">
-            <q-btn color="grey-7" round flat icon="group">
-              <q-menu anchor="bottom left" self="top middle" auto-close>
-                <q-list style="width: max-content">
-                  <q-item clickable to="/users">
-                    <q-item-section>Lista de usuários</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
+          <div class="float-left">
+            <q-toggle
+              v-model="notifications"
+              unchecked-icon="notifications_off"
+              checked-icon="notifications_active"
+              color="blue-8"
+              @input="receber_notificacoes()"
+              ref="toggle_ntf"
+            />
           </div>
           <q-card-section
             class="q-pa-md"
@@ -108,6 +117,15 @@
             <q-btn label="Sair" @click="sair" color="primary"/>
           </q-card-actions>
         </q-card>
+        <q-page-sticky position="bottom-left" :offset="[18, 18]" v-if="admin">
+          <q-fab
+            icon="settings"
+            color="grey-7"
+            direction="up">
+            <q-fab-action external-label label-position="right" color="grey-7" to="/users" icon="group" label="Usuários" />
+            <q-fab-action external-label label-position="right" color="grey-7" to="/notificar" icon="chat" label="Notificar" />
+          </q-fab>
+        </q-page-sticky>
     </q-page>
 </template>
 
@@ -130,13 +148,17 @@ export default {
         contato: '',
         nascimento: ''
       },
-      admin: false
+      admin: false,
+      notifications: false
     }
   },
 
   created () {
     if (this.user) {
       this.getProfile(this.user.uid)
+    }
+    if (Notification.permission === 'granted') {
+      this.notifications = true
     }
   },
 
@@ -225,6 +247,49 @@ export default {
           this.$router.replace('/')
         }
       )
+    },
+
+    handleTokenRefresh () {
+      return this.$msg.getToken().then((token) => {
+        this.$db.ref('tokens_notification').orderByValue().equalTo(token).once('value', (snapshot) => {
+          if (!snapshot.exists()) {
+            console.log('Salvando token no database...')
+            this.$db.ref('tokens_notification').push(token)
+          } else {
+            console.log('Já existe.')
+          }
+        })
+        console.log(token)
+      })
+    },
+
+    receber_notificacoes () {
+      if (this.$refs.toggle_ntf.value) {
+        this.$msg.getToken().then((token) => {
+          console.log(token)
+          this.$msg.deleteToken(token).then(() => {
+            console.log('Deletado')
+            this.$db.ref('tokens_notification').orderByValue().equalTo(token).once('value', (snapshot) => {
+              let key = Object.keys(snapshot.val())[0]
+              return this.$db.ref('/tokens').child(key).remove()
+            })
+          }).catch((err) => {
+            console.log(err)
+          })
+        })
+        this.notifications = false
+      } else {
+        console.log(Notification.permission)
+        this.$msg.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            console.log('Notification permission granted.')
+            this.handleTokenRefresh()
+            this.notifications = true
+          } else {
+            console.log('Sem permissão. ' + permission)
+          }
+        })
+      }
     }
   }
 }

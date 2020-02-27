@@ -12,13 +12,14 @@
     "build:pwa": "quasar build -m pwa"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.5.2",
     "firebase": "^6.6.1",
     "jquery": "^3.4.1",
-    "quasar": "^1.0.0"
+    "quasar": "^1.9.4",
+    "quasar-app-extension-firebase-messaging": "https://github.com/motia/quasar-app-extension-firebase-messaging"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0",
+    "@quasar/app": "^1.5.8",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",

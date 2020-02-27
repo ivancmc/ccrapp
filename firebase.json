@@ -6,6 +6,8 @@
     "site": "ccrapp",
     "public": "public",
     "ignore": [
+      "database.rules.json",
+      "functions",
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
