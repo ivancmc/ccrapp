@@ -68,12 +68,16 @@ const routes = [
     component: () => import('pages/Sem_almoco.vue')
   },
   {
-    path: '/groups',
+    path: '/com_almoco',
+    component: () => import('pages/Com_almoco.vue')
+  },
+  {
+    path: '/grupos',
     component: () => import('layouts/MyLayout.vue'),
     children: [
       {
         path: '',
-        component: () => import('pages/Groups.vue'),
+        component: () => import('pages/Grupos.vue'),
         meta: {
           title: 'Pequenos grupos'
         }
@@ -94,12 +98,12 @@ const routes = [
     ]
   },
   {
-    path: '/photos',
+    path: '/fotos',
     component: () => import('layouts/MyLayout.vue'),
     children: [
       {
         path: '',
-        component: () => import('pages/Photos.vue'),
+        component: () => import('pages/Fotos.vue'),
         meta: {
           title: 'Fotos'
         }

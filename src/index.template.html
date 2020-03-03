@@ -77,6 +77,21 @@
           }
         }
       }
+
+      function total (itens) {
+        var total = 0;
+        var regex = "";
+        var qtd = [];
+        var precos = JSON.parse(window.localStorage.getItem('precos'));
+        for (var i = 1; i <= itens; i++) {
+          regex = '[name$="-' + i + '"]:checked';
+          if (document.querySelector(regex)) {
+            qtd[i - 1] = document.querySelector(regex).value;
+            total = total + (qtd[i - 1] * precos[i - 1]);
+          }
+        }
+        document.querySelector('[class=eapps-form-element-heading-title]').innerHTML = 'TOTAL: R$ ' + total + ',00';
+      }
     </script>
   </head>
   <body>

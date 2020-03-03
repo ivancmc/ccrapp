@@ -31,7 +31,7 @@
 </style>
 <script>
 export default {
-  name: 'Photos',
+  name: 'Fotos',
   data () {
     return {
       visible: false,

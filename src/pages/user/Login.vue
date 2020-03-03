@@ -157,7 +157,7 @@ export default {
     if (this.user) {
       this.getProfile(this.user.uid)
     }
-    if (Notification.permission === 'granted') {
+    if (window.localStorage.getItem('notification-permission') === 'granted') {
       this.notifications = true
     }
   },
@@ -265,30 +265,57 @@ export default {
 
     receber_notificacoes () {
       if (this.$refs.toggle_ntf.value) {
+        // Desativar notificacoes
         this.$msg.getToken().then((token) => {
           console.log(token)
-          this.$msg.deleteToken(token).then(() => {
-            console.log('Deletado')
-            this.$db.ref('tokens_notification').orderByValue().equalTo(token).once('value', (snapshot) => {
-              let key = Object.keys(snapshot.val())[0]
-              return this.$db.ref('/tokens').child(key).remove()
-            })
-          }).catch((err) => {
-            console.log(err)
+          window.localStorage.setItem('notification-permission', 'denied')
+          this.$db.ref('tokens_notification').orderByValue().equalTo(token).once('value', (snapshot) => {
+            let key = Object.keys(snapshot.val())[0]
+            this.$db.ref('tokens_notification').child(key).remove()
+            console.log('token removido')
           })
         })
         this.notifications = false
-      } else {
-        console.log(Notification.permission)
-        this.$msg.requestPermission().then((permission) => {
-          if (permission === 'granted') {
-            console.log('Notification permission granted.')
-            this.handleTokenRefresh()
-            this.notifications = true
-          } else {
-            console.log('Sem permissão. ' + permission)
-          }
+        this.$q.notify({
+          message: 'Notificações desabilitadas.',
+          color: 'negative',
+          position: 'center',
+          icon: 'chat'
         })
+      } else {
+        // Ativar notificacoes
+        console.log(Notification.permission)
+        if (Notification.permission === 'granted') {
+          window.localStorage.setItem('notification-permission', 'granted')
+          this.handleTokenRefresh()
+          this.notifications = true
+          this.$q.notify({
+            message: 'Notificações habilitadas.',
+            color: 'positive',
+            position: 'center',
+            icon: 'chat'
+          })
+        } else if (Notification.permission === 'denied') {
+          alert('Você deve limpar a configuração de notificações do App para poder habilitar novamente.')
+          this.notifications = false
+        } else if (Notification.permission === 'default') {
+          Notification.requestPermission.then((choice) => {
+            if (choice === 'granted') {
+              window.localStorage.setItem('notification-permission', 'granted')
+              this.handleTokenRefresh()
+              this.notifications = true
+              this.$q.notify({
+                message: 'Notificações habilitadas.',
+                color: 'positive',
+                position: 'center',
+                icon: 'chat'
+              })
+            } else {
+              window.localStorage.setItem('notification-permission', 'denied')
+              this.notifications = false
+            }
+          })
+        }
       }
     }
   }

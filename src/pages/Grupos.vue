@@ -54,37 +54,7 @@
               <q-list separator>
                 <q-item>
                   <q-item-section>
-                    <q-item-label header overline style="text-align: center">GRUPO FEIRA</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item class="my-card">
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3899.0904126090372!2d-38.91743928580715!3d-12.24215724889768!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x71439f01269925b%3A0x38066ce42c559e8a!2sGran%20Ville%20Residence!5e0!3m2!1spt-BR!2sbr!4v1572045243120!5m2!1spt-BR!2sbr" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-                </q-item>
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon color="grey" name="room" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label overline>ENDEREÇO</q-item-label>
-                    <q-item-label>Travessa Chácara Mirineu - Bairro Sim, Cond. Gran Ville Residence, Casa 78, Feira de Santana - BA</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon color="grey" name="people" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label overline>COORDENAÇÃO</q-item-label>
-                    <q-item-label>Pr. Samuel</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon color="grey" name="access_time" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label overline>HORÁRIO</q-item-label>
-                    <q-item-label>19H</q-item-label>
+                    <q-item-label header overline style="text-align: center">NÃO TEM.</q-item-label>
                   </q-item-section>
                 </q-item>
               </q-list>
@@ -264,6 +234,68 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
+
+        <q-separator />
+
+        <q-expansion-item group="groups" label="Sábado" header-class="bg-blue-8 text-white" expand-icon-class="text-white">
+          <q-card>
+            <q-card-section class="my-card">
+              <q-list separator>
+                <q-item>
+                  <q-item-section>
+                    <q-item-label header overline style="text-align: center">NÃO TEM.</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-separator />
+
+        <q-expansion-item group="groups" label="Domingo" header-class="bg-light-blue-4 text-white" expand-icon-class="text-white">
+          <q-card>
+            <q-card-section class="my-card">
+              <q-list separator>
+                <q-item>
+                  <q-item-section>
+                    <q-item-label header overline style="text-align: center">GRUPO FEIRA</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item class="my-card">
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3899.0904126090372!2d-38.91743928580715!3d-12.24215724889768!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x71439f01269925b%3A0x38066ce42c559e8a!2sGran%20Ville%20Residence!5e0!3m2!1spt-BR!2sbr!4v1572045243120!5m2!1spt-BR!2sbr" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                </q-item>
+                <q-item>
+                  <q-item-section avatar>
+                    <q-icon color="grey" name="room" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label overline>ENDEREÇO</q-item-label>
+                    <q-item-label>Travessa Chácara Mirineu - Bairro Sim, Cond. Gran Ville Residence, Casa 78, Feira de Santana - BA</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item>
+                  <q-item-section avatar>
+                    <q-icon color="grey" name="people" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label overline>COORDENAÇÃO</q-item-label>
+                    <q-item-label>Pr. Samuel</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item>
+                  <q-item-section avatar>
+                    <q-icon color="grey" name="access_time" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label overline>HORÁRIO</q-item-label>
+                    <q-item-label>19H</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
       </q-list>
     </div>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
@@ -278,7 +310,7 @@
 </style>
 <script>
 export default {
-  name: 'groups',
+  name: 'grupos',
   data () {
     return {
     }

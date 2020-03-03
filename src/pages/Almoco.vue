@@ -7,7 +7,7 @@
     >
       <div v-show="showData">
         <div class="frame">
-          <iframe id="frame_almoco" src="https://tiny.cc/ReservarAlmoco" width="100%" height="auto" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
+          <iframe id="frame_almoco" src="https://tiny.cc/AlmocoCCRSSA" width="100%" height="auto" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
         </div>
       </div>
     </transition>
@@ -47,19 +47,6 @@ export default {
       setTimeout(() => {
         this.$el.querySelector('iframe').style.height = '-webkit-fill-available'
         this.$el.querySelector('iframe').style.width = '-webkit-fill-available'
-        // this.$el.querySelector('.page-footer').style.display = 'none'
-        // this.$el.querySelector('.intro-avatar')[0].style.display = 'none'
-        // this.$el.getElementsByClassName('intro-avatar').style.display = 'none'
-        // this.$el.querySelector('iframe').document.getElementsByClassName('intro-avatar').style.display = 'none'
-        // if (this.$el.querySelector("a[href*='elfsight']")) {
-        //   this.$el.querySelector("a[href*='elfsight']").style.display = 'none'
-        // } else {
-        //   this.$q.notify({
-        //     message: 'Problema de rede. Verifique sua conexão com a internet.',
-        //     color: 'negative',
-        //     position: 'center'
-        //   })
-        // }
       }, 3000)
     }
   },

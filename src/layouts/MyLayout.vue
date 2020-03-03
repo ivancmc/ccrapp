@@ -82,7 +82,7 @@ const menuList = [
   {
     icon: 'r_home_work',
     label: 'Pequenos grupos',
-    link: '/groups'
+    link: '/grupos'
   },
   {
     icon: 'r_event',
@@ -107,7 +107,7 @@ const menuList = [
   {
     icon: 'r_photo',
     label: 'Fotos',
-    link: '/photos'
+    link: '/fotos'
   },
   {
     icon: 'r_group',
