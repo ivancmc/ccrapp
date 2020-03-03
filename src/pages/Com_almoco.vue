@@ -17,8 +17,7 @@ export default {
       desc: [],
       precos: [],
       radios: [],
-      regex: '',
-      qtd: []
+      regex: ''
     }
   },
 
@@ -70,7 +69,7 @@ export default {
             position: 'center'
           })
         }
-      }, 5000)
+      }, 3500)
     }
   },
 

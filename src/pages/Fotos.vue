@@ -7,9 +7,6 @@
     >
       <div v-show="showData">
         <ul class="juicer-feed" data-feed-id="ivcardoso" data-filter="instagram" data-after="updateFilters()"></ul>
-        <!-- <div class="q-pa-md">
-          <q-btn type="a" href="https://www.instagram.com/ccr_salvador" target="_blank" label="Nosso instagram" push color="blue-8" />
-        </div> -->
       </div>
     </transition>
     <q-inner-loading :showing="visible">
@@ -27,6 +24,12 @@
 
 .j-loading:before {
   background-color: #4fc3f7;
+}
+
+.juicer-feed.modern li.feed-item{
+  border-width: 1px !important;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
 }
 </style>
 <script>

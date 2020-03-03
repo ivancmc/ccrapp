@@ -7,7 +7,7 @@
     >
       <div v-show="showData">
         <div class="elfsight-app-602a2528-884e-4ad1-9830-9cd645660c16 podcast1" v-show="pdc1_visivel"></div>
-        <div class="podcast2" v-show="!pdc1_visivel"></div>
+        <div class="elfsight-app-19004bf5-054f-419d-8f7f-fe94bd8afaff podcast2" v-show="!pdc1_visivel"></div>
       </div>
     </transition>
     <q-inner-loading :showing="visible">

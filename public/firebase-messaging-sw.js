@@ -3,7 +3,7 @@
 importScripts('https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/6.6.1/firebase-messaging.js');
 
-importScripts('/service-worker.js?1583238844495')
+importScripts('/service-worker.js?1583262201444')
 firebase.initializeApp({
   messagingSenderId: '737588678740'
 });
