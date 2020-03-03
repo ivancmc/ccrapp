@@ -3,7 +3,7 @@
 importScripts('https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/6.6.1/firebase-messaging.js');
 
-importScripts('/service-worker.js?1583194767525')
+importScripts('/service-worker.js?1583235956249')
 firebase.initializeApp({
   messagingSenderId: '737588678740'
 });
@@ -19,5 +19,7 @@ messaging.setBackgroundMessageHandler(function(payload) {
     body: obj.body,
     icon: obj.icon
   };
-  return self.registration.showNotification(notificationTitle, notificationOptions);
+  if (window.localStorage.getItem('notification-permission') === 'granted') {
+    return self.registration.showNotification(notificationTitle, notificationOptions);
+  }
 });

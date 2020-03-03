@@ -13,5 +13,7 @@ messaging.setBackgroundMessageHandler(function(payload) {
     body: obj.body,
     icon: obj.icon
   };
-  return self.registration.showNotification(notificationTitle, notificationOptions);
+  if (window.localStorage.getItem('notification-permission') === 'granted') {
+    return self.registration.showNotification(notificationTitle, notificationOptions);
+  }
 });

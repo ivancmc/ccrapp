@@ -72,6 +72,10 @@ const routes = [
     component: () => import('pages/Com_almoco.vue')
   },
   {
+    path: '/almoco_ok',
+    component: () => import('pages/Almoco_ok.vue')
+  },
+  {
     path: '/grupos',
     component: () => import('layouts/MyLayout.vue'),
     children: [
