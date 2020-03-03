@@ -39,7 +39,10 @@ export default ({ Vue }) => {
       title: 'Notificações',
       message: 'Clique em PERMITIR na próxima tela para ficar por dentro das novidades do nosso App.',
       cancel: 'Agora não',
-      ok: 'Certo',
+      ok: {
+        label: 'Certo',
+        push: true
+      },
       persistent: true
     }).onOk(() => {
       console.log('OK')
@@ -66,7 +69,7 @@ export default ({ Vue }) => {
         }
       })
     }).onCancel(() => {
-      // console.log('Cancel')
+      window.localStorage.setItem('notification-permission', 'denied')
     }).onDismiss(() => {
       // console.log('I am triggered on both OK and Cancel')
     })

@@ -299,7 +299,7 @@ export default {
           alert('Você deve limpar a configuração de notificações do App para poder habilitar novamente.')
           this.notifications = false
         } else if (Notification.permission === 'default') {
-          Notification.requestPermission.then((choice) => {
+          Notification.requestPermission().then((choice) => {
             if (choice === 'granted') {
               window.localStorage.setItem('notification-permission', 'granted')
               this.handleTokenRefresh()
