@@ -5,8 +5,21 @@
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOut"
     >
-    <div v-show="showData">
+    <div>
       <ul class="juicer-feed" data-feed-id="ivcardoso" data-filter="youtube" data-after="updateFilters()"></ul>
+      <div v-show="showErro" class="fixed-center text-center">
+        <p>
+          <img
+            src="~assets/sad.svg"
+            style="width:30vw;max-width:150px;"
+          >
+        </p>
+        <p class="text-faded">Infelizmente não foi possível carregar o conteúdo. Tente novamente.</p>
+        <q-btn
+          color="primary"
+          @click="$router.go()"
+        >Recarregar</q-btn>
+      </div>
     </div>
     </transition>
     <q-inner-loading :showing="visible">
@@ -19,11 +32,11 @@
 </template>
 <style>
 .j-loading {
-  border-color: #1976d2;
+  border-color: white;
 }
 
 .j-loading:before {
-  background-color: #4fc3f7;
+  background-color: white;
 }
 
 .juicer-feed.modern li.feed-item{
@@ -38,28 +51,35 @@ export default {
   data () {
     return {
       visible: false,
-      showData: true,
-      json: null
+      showErro: false
     }
   },
 
   methods: {
     showLoading () {
-      // this.visible = true
-      // this.showData = false
-      // setTimeout(() => {
-      //   this.visible = false
-      //   this.showData = true
-      // }, 1000)
-      setTimeout(() => {
-        if (!(this.$el.querySelector('div.j-poster'))) {
-          this.$q.notify({
+      var that = this
+      that.visible = true
+
+      let interval = 0
+      let tempo = 0
+      interval = setInterval(function () {
+        if (that.$el.querySelector('div.j-poster')) {
+          clearInterval(interval)
+          that.visible = false
+        } else {
+          tempo = tempo + 0.5
+        }
+        if (tempo === 10) {
+          clearInterval(interval)
+          that.$q.notify({
             message: 'Problema de rede. Verifique sua conexão com a internet.',
             color: 'negative',
             position: 'center'
           })
+          that.visible = false
+          that.showErro = true
         }
-      }, 10000)
+      }, 500)
     }
   },
 

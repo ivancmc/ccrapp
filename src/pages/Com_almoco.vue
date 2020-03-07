@@ -1,5 +1,5 @@
 <template>
-  <div v-show="showData">
+  <div>
     <div class="elfsight-app-4bbbce4a-4164-49c6-a426-c155db9e8006 almoco1" v-show="alm1_visivel"></div>
     <div class="almoco2" v-show="!alm1_visivel"></div>
   </div>
@@ -11,8 +11,6 @@ export default {
   name: 'Com_almoco',
   data () {
     return {
-      visible: false,
-      showData: false,
       alm1_visivel: true,
       desc: [],
       precos: [],
@@ -23,53 +21,62 @@ export default {
 
   methods: {
     showLoading () {
-      this.visible = true
-      this.showData = false
-      setTimeout(() => {
-        this.visible = false
-        this.showData = true
-      }, 2000)
-      setTimeout(() => {
-        if (this.$el.querySelector('div.almoco1').lastChild) {
-          if (this.$el.querySelector('div.almoco1').lastChild.childElementCount === 0) {
-            this.alm1_visivel = false
+      var that = this
+
+      let interval = 0
+      let tempo = 0
+      interval = setInterval(function () {
+        if (that.$el.querySelector('[class^="elfsight"]').childElementCount !== 0) {
+          clearInterval(interval)
+
+          if (that.$el.querySelector('div.almoco1').firstChild) {
+            if (that.$el.querySelector('div.almoco1').firstChild.childElementCount === 0) {
+              that.alm1_visivel = false
+            }
           }
-        }
-      }, 1000)
-      setTimeout(() => {
-        if (this.$el.querySelector("a[href*='elfsight']")) {
-          this.$el.querySelector("a[href*='elfsight']").style.display = 'none'
+          if (that.$el.querySelector("a[href*='elfsight']")) {
+            that.$el.querySelector("a[href*='elfsight']").style.display = 'none'
+          }
 
-          this.desc = this.$el.querySelectorAll('[class=eapps-form-element-description]')
+          if (that.$el.querySelector('[placeholder^="Nome"]')) {
+            that.$el.querySelector('[placeholder^="Nome"]').setAttribute('value', window.localStorage.getItem('username'))
+          }
 
-          for (var i in this.desc) {
-            if (this.desc[i].innerText) {
-              this.precos[i] = this.desc[i].innerText.match(/\d+/)[0]
+          that.desc = that.$el.querySelectorAll('[class=eapps-form-element-description]')
+
+          for (var i in that.desc) {
+            if (that.desc[i].innerText) {
+              that.precos[i] = that.desc[i].innerText.match(/\d+/)[0]
             }
           }
 
-          window.localStorage.setItem('precos', JSON.stringify(this.precos))
+          window.localStorage.setItem('precos', JSON.stringify(that.precos))
 
-          for (i = 1; i <= this.precos.length; i++) {
-            this.regex = '[name$="-' + i + '"]'
-            if (this.$el.querySelectorAll(this.regex).length !== 0) {
-              this.radios[i] = this.$el.querySelectorAll(this.regex)
+          for (i = 1; i <= that.precos.length; i++) {
+            that.regex = '[name$="-' + i + '"]'
+            if (that.$el.querySelectorAll(that.regex).length !== 0) {
+              that.radios[i] = that.$el.querySelectorAll(that.regex)
             }
           }
 
-          for (i = 1; i <= this.precos.length; i++) {
-            for (var j = 0; j < this.radios[i].length; j++) {
-              this.radios[i][j].setAttribute('onclick', 'total(' + this.precos.length + ')')
+          for (i = 1; i <= that.precos.length; i++) {
+            for (var j = 0; j < that.radios[i].length; j++) {
+              that.radios[i][j].setAttribute('onclick', 'total(' + that.precos.length + ')')
+              that.radios[i][j].checked = false
             }
           }
         } else {
-          this.$q.notify({
+          tempo = tempo + 0.5
+        }
+        if (tempo === 10) {
+          clearInterval(interval)
+          that.$q.notify({
             message: 'Problema de rede. Verifique sua conexão com a internet.',
             color: 'negative',
             position: 'center'
           })
         }
-      }, 3500)
+      }, 500)
     }
   },
 

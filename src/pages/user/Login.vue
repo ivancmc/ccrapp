@@ -1,5 +1,6 @@
 <template>
     <q-page class="q-pa-md flex-center">
+      <q-pull-to-refresh @refresh="refresh">
         <q-card
           class="q-pa-md"
           inline
@@ -126,6 +127,7 @@
             <q-fab-action external-label label-position="right" color="grey-7" to="/notificar" icon="chat" label="Notificar" />
           </q-fab>
         </q-page-sticky>
+      </q-pull-to-refresh>
     </q-page>
 </template>
 
@@ -244,6 +246,7 @@ export default {
             position: 'center',
             icon: 'pan_tool'
           })
+          window.localStorage.setItem('username', '')
           this.$router.replace('/')
         }
       )
@@ -317,6 +320,11 @@ export default {
           })
         }
       }
+    },
+
+    refresh (done) {
+      window.location.reload(true)
+      done()
     }
   }
 }

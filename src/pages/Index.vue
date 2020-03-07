@@ -12,6 +12,19 @@
         <!-- Chat -->
         <div class="elfsight-app-ea37ab68-080d-4dd2-9484-9dcb8aa3890e whatsapp1" v-show="wp1_visivel"></div>
         <div class="elfsight-app-4c2052b2-06a5-49c7-b7f4-7e9840e98de1 whatsapp2" v-show="!wp1_visivel"></div>
+        <div v-show="showErro" class="fixed-center text-center">
+          <p>
+            <img
+              src="~assets/sad.svg"
+              style="width:30vw;max-width:150px;"
+            >
+          </p>
+          <p class="text-faded">Infelizmente não foi possível carregar o conteúdo. Tente novamente.</p>
+          <q-btn
+            color="primary"
+            @click="$router.go()"
+          >Recarregar</q-btn>
+        </div>
       </div>
     </transition>
     <q-inner-loading :showing="visible">
@@ -28,6 +41,7 @@ export default {
     return {
       visible: false,
       showData: false,
+      showErro: false,
       bn1_visivel: true,
       wp1_visivel: true
     }
@@ -35,35 +49,46 @@ export default {
 
   methods: {
     showLoading () {
-      this.visible = true
-      this.showData = false
-      setTimeout(() => {
-        this.visible = false
-        this.showData = true
-      }, 2000)
-      setTimeout(() => {
-        if (this.$el.querySelector('div.banner1').lastChild) {
-          if (this.$el.querySelector('div.banner1').lastChild.childElementCount === 0) {
-            this.bn1_visivel = false
+      var that = this
+      that.visible = true
+      that.showData = false
+
+      let interval = 0
+      let tempo = 0
+      interval = setInterval(function () {
+        if (that.$el.querySelector('[class^="elfsight"]').childElementCount !== 0) {
+          clearInterval(interval)
+          that.visible = false
+          that.showData = true
+
+          if (that.$el.querySelector('div.banner1').lastChild) {
+            if (that.$el.querySelector('div.banner1').lastChild.childElementCount === 0) {
+              that.bn1_visivel = false
+            }
           }
-        }
-        if (this.$el.querySelector('div.whatsapp1').lastChild) {
-          if (this.$el.querySelector('div.whatsapp1').lastChild.childElementCount === 0) {
-            this.wp1_visivel = false
+          if (that.$el.querySelector('div.whatsapp1').lastChild) {
+            if (that.$el.querySelector('div.whatsapp1').lastChild.childElementCount === 0) {
+              that.wp1_visivel = false
+            }
           }
-        }
-      }, 1000)
-      setTimeout(() => {
-        if (this.$el.querySelector("a[href*='elfsight']")) {
-          this.$el.querySelector("a[href*='elfsight']").style.display = 'none'
+          if (that.$el.querySelector("a[href*='elfsight']")) {
+            that.$el.querySelector("a[href*='elfsight']").style.display = 'none'
+          }
         } else {
-          this.$q.notify({
+          tempo = tempo + 0.5
+        }
+        if (tempo === 10) {
+          clearInterval(interval)
+          that.$q.notify({
             message: 'Problema de rede. Verifique sua conexão com a internet.',
             color: 'negative',
             position: 'center'
           })
+          that.visible = false
+          that.showData = true
+          that.showErro = true
         }
-      }, 7000)
+      }, 500)
     }
   },
 
