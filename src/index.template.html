@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQ2SEC6S4V"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-XQ2SEC6S4V');
-    </script>
     <title><%= htmlWebpackPlugin.options.productName %></title>
 
     <meta charset="utf-8">
@@ -90,10 +81,22 @@
             total = total + (qtd[i - 1] * precos[i - 1]);
           }
         }
-        document.querySelector('[class=eapps-form-element-heading-title]').innerHTML = 'TOTAL: R$ ' + total + ',00';
+        document.querySelector('[class=eapps-form-element-heading-title]').innerHTML = 'TOTAL: R$ ' + total.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        var desconto = total * 0.9;
+        if (document.querySelector('[class=eapps-form-element-heading-caption]')) {
+          document.querySelector('[class=eapps-form-element-heading-caption]').innerHTML = 'Com desconto: R$ ' + desconto.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        }
       }
     </script>
-  </head>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(function () {
+        OneSignal.init({
+          appId: '7103a977-54c9-4591-b505-7a856c6e5fae'
+        });
+      });
+    </script>
   <body>
     <!-- DO NOT touch the following DIV -->
     <div id="q-app"></div>

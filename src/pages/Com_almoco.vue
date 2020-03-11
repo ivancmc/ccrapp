@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="elfsight-app-4bbbce4a-4164-49c6-a426-c155db9e8006 almoco1" v-show="alm1_visivel"></div>
-    <div class="almoco2" v-show="!alm1_visivel"></div>
+    <div class="elfsight-app-d91764cc-cef1-4bcc-9651-b069d12ea093 almoco2" v-show="!alm1_visivel"></div>
   </div>
 </template>
 <style scoped>
@@ -11,7 +11,7 @@ export default {
   name: 'Com_almoco',
   data () {
     return {
-      alm1_visivel: true,
+      alm1_visivel: false,
       desc: [],
       precos: [],
       radios: [],
@@ -34,11 +34,16 @@ export default {
               that.alm1_visivel = false
             }
           }
+          if (that.alm1_visivel) {
+            that.$el.querySelector('div.almoco2').remove()
+          } else {
+            that.$el.querySelector('div.almoco1').remove()
+          }
           if (that.$el.querySelector("a[href*='elfsight']")) {
             that.$el.querySelector("a[href*='elfsight']").style.display = 'none'
           }
 
-          if (that.$el.querySelector('[placeholder^="Nome"]')) {
+          if (that.$el.querySelector('[placeholder^="Nome"]') && (window.localStorage.getItem('username'))) {
             that.$el.querySelector('[placeholder^="Nome"]').setAttribute('value', window.localStorage.getItem('username'))
           }
 
@@ -52,17 +57,19 @@ export default {
 
           window.localStorage.setItem('precos', JSON.stringify(that.precos))
 
-          for (i = 1; i <= that.precos.length; i++) {
-            that.regex = '[name$="-' + i + '"]'
-            if (that.$el.querySelectorAll(that.regex).length !== 0) {
-              that.radios[i] = that.$el.querySelectorAll(that.regex)
+          if (that.precos) {
+            for (i = 1; i <= that.precos.length; i++) {
+              that.regex = '[name$="-' + i + '"]'
+              if (that.$el.querySelectorAll(that.regex).length !== 0) {
+                that.radios[i] = that.$el.querySelectorAll(that.regex)
+              }
             }
-          }
 
-          for (i = 1; i <= that.precos.length; i++) {
-            for (var j = 0; j < that.radios[i].length; j++) {
-              that.radios[i][j].setAttribute('onclick', 'total(' + that.precos.length + ')')
-              that.radios[i][j].checked = false
+            for (i = 1; i <= that.precos.length; i++) {
+              for (var j = 0; j < that.radios[i].length; j++) {
+                that.radios[i][j].setAttribute('onclick', 'total(' + that.precos.length + ')')
+                that.radios[i][j].checked = false
+              }
             }
           }
         } else {

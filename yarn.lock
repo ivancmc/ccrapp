@@ -7907,6 +7907,10 @@ qs@~6.5.2:
   version "0.0.1"
   resolved "https://github.com/motia/quasar-app-extension-firebase-messaging#f72c05f48f0dacb47cb19772514a73ae74038579"
 
+"quasar-app-extension-onesignal@https://github.com/motia/quasar-app-extension-onesignal":
+  version "0.2.2"
+  resolved "https://github.com/motia/quasar-app-extension-onesignal#2af817a820dc27d68a38ae1796f4688af18197ac"
+
 quasar@^1.9.4:
   version "1.9.4"
   resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.9.4.tgz#23dcb87bf8a5ea62fa60366016a496fffbe9702b"

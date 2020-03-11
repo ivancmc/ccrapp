@@ -53,8 +53,10 @@ export default {
       interval = setInterval(function () {
         if (that.$el.querySelector('[class^="elfsight"]').childElementCount !== 0) {
           clearInterval(interval)
-          that.visible = false
-          that.showData = true
+          setTimeout(function () {
+            that.visible = false
+            that.showData = true
+          }, 3000)
 
           if (that.$el.querySelector('div.event1').lastChild) {
             if (that.$el.querySelector('div.event1').lastChild.childElementCount === 0) {

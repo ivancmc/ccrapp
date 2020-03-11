@@ -68,10 +68,7 @@ export default {
           that.$el.querySelector('iframe').style.height = '-webkit-fill-available'
           that.$el.querySelector('iframe').style.width = '-webkit-fill-available'
 
-          if (that.user) {
-            window.localStorage.setItem('username', that.user.displayName ? that.user.displayName : '')
-          }
-          console.log(that.user)
+          window.localStorage.setItem('username', that.user ? that.user.displayName : '')
         } else {
           tempo = tempo + 0.5
         }

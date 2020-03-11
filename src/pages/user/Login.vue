@@ -1,133 +1,131 @@
 <template>
     <q-page class="q-pa-md flex-center">
-      <q-pull-to-refresh @refresh="refresh">
-        <q-card
-          class="q-pa-md"
-          inline
-          color="white"
-          v-if="!user"
-        >
-          <div class="float-left">
-            <q-toggle
-              v-model="notifications"
-              unchecked-icon="notifications_off"
-              checked-icon="notifications_active"
-              color="blue-8"
-              @input="receber_notificacoes()"
-              ref="toggle_ntf"
-            />
-          </div>
-          <div class="float-right">
-            <q-btn color="grey-7" round flat icon="o_live_help">
-              <q-menu anchor="bottom left" self="top middle" auto-close>
-                <q-list style="width: max-content">
-                  <q-item clickable @click="resetar_senha">
-                    <q-item-section>Esqueci minha senha</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
-          </div>
-          <q-card-section class="q-pa-md" style="margin:auto; width:max-content">
-            <q-icon name="assignment_ind" style="font-size: 5em;" />
-          </q-card-section>
-          <q-form>
-            <q-input
-            v-model="email"
-            label="E-mail *"
-            @keyup.enter="entrar"
-            lazy-rules
-            :rules="[val => val && val.length > 0 || 'Por favor digite seu e-mail', val => val.includes('@') && val.includes('.') || 'Digite um e-mail válido']"
-            clearable
-            />
-            <q-input
-            v-model="senha"
-            type="password"
-            label="Senha *"
-            @keyup.enter="entrar"
-            lazy-rules
-            :rules="[
-              val => val !== null && val !== '' || 'Digite uma senha'
-            ]"
-            clearable
-            />
-            <q-card-actions
-              align="center"
-              class="q-mt-lg"
-            >
-                <q-btn label="Entrar" @click="entrar" color="secondary" :loading="loading1">
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
-                <q-btn label="Criar conta" @click="registrar" color="primary" flat class="q-ml-sm" :loading="loading2">
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
-            </q-card-actions>
-          </q-form>
-        </q-card>
-        <q-card
-          class="card-sign-in q-pa-md"
-          inline
-          color="white"
-          v-else
-        >
-          <div class="float-left">
-            <q-toggle
-              v-model="notifications"
-              unchecked-icon="notifications_off"
-              checked-icon="notifications_active"
-              color="blue-8"
-              @input="receber_notificacoes()"
-              ref="toggle_ntf"
-            />
-          </div>
-          <q-card-section
-            class="q-pa-md"
-            style="margin:auto; width:max-content"
-          >
-            <!-- <q-icon name="assignment_ind" style="font-size: 10em;" /> -->
-            <q-input
-            v-model="user.displayName"
-            label="Nome"
-            readonly
-            />
-            <q-input
-            v-model="user.email"
-            label="E-mail"
-            readonly
-            />
-            <q-input
-            v-model="perfil.contato"
-            label="Contato"
-            readonly
-            />
-            <q-input
-            v-model="perfil.nascimento"
-            label="Data de nascimento"
-            readonly
-            />
-          </q-card-section>
+      <q-card
+        class="q-pa-md"
+        inline
+        color="white"
+        v-if="!user"
+      >
+        <div class="float-left" v-show="false">
+          <q-toggle
+            v-model="notifications"
+            unchecked-icon="notifications_off"
+            checked-icon="notifications_active"
+            color="blue-8"
+            @input="receber_notificacoes()"
+            ref="toggle_ntf"
+          />
+        </div>
+        <div class="float-right">
+          <q-btn color="grey-7" round flat icon="o_live_help">
+            <q-menu anchor="bottom left" self="top middle" auto-close>
+              <q-list style="width: max-content">
+                <q-item clickable @click="resetar_senha">
+                  <q-item-section>Esqueci minha senha</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
+        <q-card-section class="q-pa-md" style="margin:auto; width:max-content">
+          <q-icon name="assignment_ind" style="font-size: 5em;" />
+        </q-card-section>
+        <q-form>
+          <q-input
+          v-model="email"
+          label="E-mail *"
+          @keyup.enter="entrar"
+          lazy-rules
+          :rules="[val => val && val.length > 0 || 'Por favor digite seu e-mail', val => val.includes('@') && val.includes('.') || 'Digite um e-mail válido']"
+          clearable
+          />
+          <q-input
+          v-model="senha"
+          type="password"
+          label="Senha *"
+          @keyup.enter="entrar"
+          lazy-rules
+          :rules="[
+            val => val !== null && val !== '' || 'Digite uma senha'
+          ]"
+          clearable
+          />
           <q-card-actions
             align="center"
             class="q-mt-lg"
           >
-            <q-btn label="Perfil" to="/profile" color="primary"/>
-            <q-btn label="Sair" @click="sair" color="primary"/>
+              <q-btn label="Entrar" @click="entrar" color="secondary" :loading="loading1">
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+              <q-btn label="Criar conta" @click="registrar" color="primary" flat class="q-ml-sm" :loading="loading2">
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
           </q-card-actions>
-        </q-card>
-        <q-page-sticky position="bottom-left" :offset="[18, 18]" v-if="admin">
-          <q-fab
-            icon="settings"
-            color="grey-7"
-            direction="up">
-            <q-fab-action external-label label-position="right" color="grey-7" to="/users" icon="group" label="Usuários" />
-            <q-fab-action external-label label-position="right" color="grey-7" to="/notificar" icon="chat" label="Notificar" />
-          </q-fab>
-        </q-page-sticky>
-      </q-pull-to-refresh>
+        </q-form>
+      </q-card>
+      <q-card
+        class="card-sign-in q-pa-md"
+        inline
+        color="white"
+        v-else
+      >
+        <div class="float-left" v-show="false">
+          <q-toggle
+            v-model="notifications"
+            unchecked-icon="notifications_off"
+            checked-icon="notifications_active"
+            color="blue-8"
+            @input="receber_notificacoes()"
+            ref="toggle_ntf"
+          />
+        </div>
+        <q-card-section
+          class="q-pa-md"
+          style="margin:auto; width:max-content"
+        >
+          <!-- <q-icon name="assignment_ind" style="font-size: 10em;" /> -->
+          <q-input
+          v-model="user.displayName"
+          label="Nome"
+          readonly
+          />
+          <q-input
+          v-model="user.email"
+          label="E-mail"
+          readonly
+          />
+          <q-input
+          v-model="perfil.contato"
+          label="Contato"
+          readonly
+          />
+          <q-input
+          v-model="perfil.nascimento"
+          label="Data de nascimento"
+          readonly
+          />
+        </q-card-section>
+        <q-card-actions
+          align="center"
+          class="q-mt-lg"
+        >
+          <q-btn label="Perfil" to="/profile" color="primary"/>
+          <q-btn label="Sair" @click="sair" color="primary"/>
+        </q-card-actions>
+      </q-card>
+      <q-page-sticky position="bottom-left" :offset="[18, 18]" v-if="admin">
+        <q-fab
+          icon="settings"
+          color="grey-7"
+          direction="up">
+          <q-fab-action external-label label-position="right" color="grey-7" to="/users" icon="group" label="Usuários" />
+          <!-- <q-fab-action external-label label-position="right" color="grey-7" to="/notificar" icon="chat" label="Notificar" /> -->
+        </q-fab>
+      </q-page-sticky>
     </q-page>
 </template>
 
@@ -320,11 +318,6 @@ export default {
           })
         }
       }
-    },
-
-    refresh (done) {
-      window.location.reload(true)
-      done()
     }
   }
 }

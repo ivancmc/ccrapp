@@ -16,7 +16,8 @@
     "firebase": "^6.6.1",
     "jquery": "^3.4.1",
     "quasar": "^1.9.4",
-    "quasar-app-extension-firebase-messaging": "https://github.com/motia/quasar-app-extension-firebase-messaging"
+    "quasar-app-extension-firebase-messaging": "https://github.com/motia/quasar-app-extension-firebase-messaging",
+    "quasar-app-extension-onesignal": "https://github.com/motia/quasar-app-extension-onesignal"
   },
   "devDependencies": {
     "@quasar/app": "^1.5.8",

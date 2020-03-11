@@ -5,6 +5,17 @@
   "hosting": {
     "site": "ccrapp",
     "public": "public",
+    "headers": [
+      {
+        "source": "firebase-messaging-sw.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=0"
+          }
+        ]
+      }
+    ],
     "ignore": [
       "database.rules.json",
       "functions",

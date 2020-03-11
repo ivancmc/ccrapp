@@ -7,7 +7,7 @@
 
       <q-card-section class="">
         Te esperamos domingo!<br/><br/>
-        Se desejar fazer alguma alteração entre em contato com Bia Matos.
+        Se desejar fazer alguma alteração entre em contato com Vitória Cardoso.
       </q-card-section>
 
       <q-card-actions align="center">

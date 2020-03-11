@@ -89,7 +89,7 @@ module.exports = function (ctx) {
 
     pwa: {
       // workboxPluginMode: 'InjectManifest',
-      workboxOptions: {}, // only for NON InjectManifest
+      workboxOptions: { skipWaiting: true }, // only for NON InjectManifest
       manifest: {
         name: 'CCR App',
         short_name: 'CCR App',
