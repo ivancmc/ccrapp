@@ -16,8 +16,11 @@
           {{$route.meta.title}}
         </q-toolbar-title>
 
+        <q-btn flat round dense id="notifications_central">
+          <q-icon name="notifications_active" />
+        </q-btn>
         <q-btn flat round dense to="/login">
-          <q-icon name="perm_identity" />
+          <q-icon name="person" />
         </q-btn>
       </q-toolbar>
     </q-header>
@@ -60,11 +63,17 @@
     </q-footer> -->
 
     <q-page-container>
+      <!-- Notificações -->
+      <div class="elfsight-app-20e26ec9-4e8b-40a7-835e-843dde958158"></div>
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
-
+<style>
+.eapp-popup-content-blocks-container-component {
+    padding: 15px !important;
+}
+</style>
 <script>
 import { openURL } from 'quasar'
 

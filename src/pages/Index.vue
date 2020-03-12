@@ -12,6 +12,7 @@
         <!-- Chat -->
         <div class="elfsight-app-ea37ab68-080d-4dd2-9484-9dcb8aa3890e whatsapp1" v-show="wp1_visivel"></div>
         <div class="elfsight-app-4c2052b2-06a5-49c7-b7f4-7e9840e98de1 whatsapp2" v-show="!wp1_visivel"></div>
+        <!-- Se nada carregar -->
         <div v-show="showErro" class="fixed-center text-center">
           <p>
             <img

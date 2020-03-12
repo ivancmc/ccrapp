@@ -1,1 +1,1 @@
-importScripts('/service-worker.js?1583892814612', 'https://cdn.onesignal.com/sdks/OneSignalSDKWorker.js')
+importScripts('/service-worker.js?1584033230960', 'https://cdn.onesignal.com/sdks/OneSignalSDKWorker.js')

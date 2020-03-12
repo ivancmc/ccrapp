@@ -117,13 +117,13 @@
           <q-btn label="Sair" @click="sair" color="primary"/>
         </q-card-actions>
       </q-card>
-      <q-page-sticky position="bottom-left" :offset="[18, 18]" v-if="admin">
+      <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admin">
         <q-fab
           icon="settings"
           color="grey-7"
           direction="up">
-          <q-fab-action external-label label-position="right" color="grey-7" to="/users" icon="group" label="Usuários" />
-          <!-- <q-fab-action external-label label-position="right" color="grey-7" to="/notificar" icon="chat" label="Notificar" /> -->
+          <q-fab-action external-label label-position="left" color="grey-7" to="/users" icon="group" label="Usuários" />
+          <!-- <q-fab-action external-label label-position="left" color="grey-7" to="/notificar" icon="chat" label="Notificar" /> -->
         </q-fab>
       </q-page-sticky>
     </q-page>

@@ -51,6 +51,7 @@
 .my-card{
   width: '100%';
   max-width: 700px;
+  height: fit-content;
 }
 </style>
 <script>
