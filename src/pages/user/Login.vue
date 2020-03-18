@@ -1,135 +1,96 @@
 <template>
-    <q-page class="q-pa-md flex-center">
-      <q-card
-        class="q-pa-md"
-        inline
-        color="white"
-        v-if="!user"
-      >
-        <div class="float-left" v-show="false">
-          <q-toggle
-            v-model="notifications"
-            unchecked-icon="notifications_off"
-            checked-icon="notifications_active"
-            color="blue-8"
-            @input="receber_notificacoes()"
-            ref="toggle_ntf"
-          />
-        </div>
-        <div class="float-right">
-          <q-btn color="grey-7" round flat icon="o_live_help">
-            <q-menu anchor="bottom left" self="top middle" auto-close>
-              <q-list style="width: max-content">
-                <q-item clickable @click="resetar_senha">
-                  <q-item-section>Esqueci minha senha</q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
-        </div>
-        <q-card-section class="q-pa-md" style="margin:auto; width:max-content">
-          <q-icon name="assignment_ind" style="font-size: 5em;" />
-        </q-card-section>
-        <q-form>
-          <q-input
-          v-model="email"
-          label="E-mail *"
-          @keyup.enter="entrar"
-          lazy-rules
-          :rules="[val => val && val.length > 0 || 'Por favor digite seu e-mail', val => val.includes('@') && val.includes('.') || 'Digite um e-mail válido']"
-          clearable
-          />
-          <q-input
-          v-model="senha"
-          type="password"
-          label="Senha *"
-          @keyup.enter="entrar"
-          lazy-rules
-          :rules="[
-            val => val !== null && val !== '' || 'Digite uma senha'
-          ]"
-          clearable
-          />
-          <q-card-actions
-            align="center"
-            class="q-mt-lg"
-          >
-              <q-btn label="Entrar" @click="entrar" color="secondary" :loading="loading1">
-                <template v-slot:loading>
-                  <q-spinner-facebook />
-                </template>
-              </q-btn>
-              <q-btn label="Criar conta" @click="registrar" color="primary" flat class="q-ml-sm" :loading="loading2">
-                <template v-slot:loading>
-                  <q-spinner-facebook />
-                </template>
-              </q-btn>
-          </q-card-actions>
-        </q-form>
-      </q-card>
-      <q-card
-        class="card-sign-in q-pa-md"
-        inline
-        color="white"
-        v-else
-      >
-        <div class="float-left" v-show="false">
-          <q-toggle
-            v-model="notifications"
-            unchecked-icon="notifications_off"
-            checked-icon="notifications_active"
-            color="blue-8"
-            @input="receber_notificacoes()"
-            ref="toggle_ntf"
-          />
-        </div>
-        <q-card-section
-          class="q-pa-md"
-          style="margin:auto; width:max-content"
+    <q-page>
+      <div class="q-pa-md q-gutter-md row justify-center">
+        <q-card
+          class="q-pa-md q-mb-lg"
+          inline
+          color="white"
+          style="min-width: 342px"
         >
-          <!-- <q-icon name="assignment_ind" style="font-size: 10em;" /> -->
-          <q-input
-          v-model="user.displayName"
-          label="Nome"
-          readonly
-          />
-          <q-input
-          v-model="user.email"
-          label="E-mail"
-          readonly
-          />
-          <q-input
-          v-model="perfil.contato"
-          label="Contato"
-          readonly
-          />
-          <q-input
-          v-model="perfil.nascimento"
-          label="Data de nascimento"
-          readonly
-          />
-        </q-card-section>
-        <q-card-actions
-          align="center"
-          class="q-mt-lg"
+          <div class="float-right">
+            <q-btn color="grey-7" round flat icon="o_live_help">
+              <q-menu anchor="bottom left" self="top middle" auto-close>
+                <q-list style="width: max-content">
+                  <q-item clickable @click="resetar_senha">
+                    <q-item-section>Esqueci minha senha</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </div>
+          <q-card-section class="q-pa-md" style="margin:auto; width:max-content">
+            <q-icon name="assignment_ind" style="font-size: 5em;" />
+          </q-card-section>
+          <q-form>
+            <q-input
+            v-model="email"
+            label="E-mail *"
+            @keyup.enter="entrar"
+            lazy-rules
+            :rules="[val => val && val.length > 0 || 'Por favor digite seu e-mail', val => val.includes('@') && val.includes('.') || 'Digite um e-mail válido']"
+            clearable
+            />
+            <q-input
+            v-model="senha"
+            type="password"
+            label="Senha *"
+            @keyup.enter="entrar"
+            lazy-rules
+            :rules="[
+              val => val !== null && val !== '' || 'Digite uma senha'
+            ]"
+            clearable
+            />
+            <q-card-actions
+              align="center"
+              class="q-mt-lg"
+            >
+                <q-btn label="Entrar" @click="entrar" color="secondary" :loading="loading1">
+                  <template v-slot:loading>
+                    <q-spinner-facebook />
+                  </template>
+                </q-btn>
+                <q-btn label="Criar conta" @click="registrar" color="primary" flat class="q-ml-sm" :loading="loading2">
+                  <template v-slot:loading>
+                    <q-spinner-facebook />
+                  </template>
+                </q-btn>
+            </q-card-actions>
+          </q-form>
+        </q-card>
+        <q-card
+          class="q-pa-sm q-mb-lg"
+          inline
+          color="white"
+          style="min-width: 342px; height: fit-content;"
         >
-          <q-btn label="Perfil" to="/profile" color="primary"/>
-          <q-btn label="Sair" @click="sair" color="primary"/>
-        </q-card-actions>
-      </q-card>
-      <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admin">
-        <q-fab
-          icon="settings"
-          color="grey-7"
-          direction="up">
-          <q-fab-action external-label label-position="left" color="grey-7" to="/users" icon="group" label="Usuários" />
-          <!-- <q-fab-action external-label label-position="left" color="grey-7" to="/notificar" icon="chat" label="Notificar" /> -->
-        </q-fab>
-      </q-page-sticky>
+          <q-card-section class="text-left" style="padding: 8px;">
+            <div class="text-subtitle2" style="display: inline">Notificações</div>
+            <div class="float-right" style="margin-top: -10px;" v-if="!$q.platform.is.ios">
+              <q-toggle
+                v-model="notifications"
+                unchecked-icon="notifications_off"
+                checked-icon="notifications_active"
+                color="blue-8"
+                @input="receber_notificacoes()"
+                ref="toggle_ntf"
+              />
+            </div>
+          </q-card-section>
+          <div v-if="$q.platform.is.ios">
+            <q-separator />
+            <br />
+            <p>Infelizmente as notificações ainda não funcionam neste dispositivo, mas no ícone <q-icon name="notifications_active" /> aqui em cima você verá todas elas!</p>
+          </div>
+        </q-card>
+      </div>
     </q-page>
 </template>
 
 <style scoped>
+.onesignal-customlink-container {
+  text-align: center;
+}
 </style>
 
 <script>
@@ -143,23 +104,30 @@ export default {
       loading2: false,
       codigo: '',
       user: this.$firebase.auth().currentUser,
-      perfil: {
-        nome: '',
-        contato: '',
-        nascimento: ''
-      },
-      admin: false,
       notifications: false
     }
   },
 
-  created () {
-    if (this.user) {
-      this.getProfile(this.user.uid)
+  mounted () {
+    var that = this
+    this.$firebase.auth().onAuthStateChanged(function (usuario) {
+      if (usuario) {
+        that.user = usuario
+      } else {
+        that.user = null
+      }
+    })
+    if (that.user) {
+      that.getProfile(that.user.uid)
     }
-    if (window.localStorage.getItem('notification-permission') === 'granted') {
-      this.notifications = true
-    }
+    var OneSignal = window.OneSignal
+    OneSignal.push(function () {
+      OneSignal.isPushNotificationsEnabled().then((isEnabled) => {
+        if (isEnabled) {
+          that.notifications = true
+        }
+      })
+    })
   },
 
   methods: {
@@ -188,13 +156,6 @@ export default {
           console.log(err.message)
         }
       )
-    },
-
-    getProfile (uid) {
-      this.$db.ref('perfis').orderByChild('id').equalTo(uid).once('child_added', (snapshot) => {
-        this.perfil = snapshot.val()
-        this.admin = snapshot.val().admin
-      })
     },
 
     entrar () {
@@ -232,52 +193,19 @@ export default {
         }
       )
     },
+
     resetar_senha () {
       this.$router.replace('/reset_pwd')
     },
-    sair () {
-      this.$firebase.auth().signOut().then(
-        () => {
-          this.$q.notify({
-            message: 'Até mais ' + this.perfil.nome,
-            color: 'blue-8',
-            position: 'center',
-            icon: 'pan_tool'
-          })
-          window.localStorage.setItem('username', '')
-          this.$router.replace('/')
-        }
-      )
-    },
-
-    handleTokenRefresh () {
-      return this.$msg.getToken().then((token) => {
-        this.$db.ref('tokens_notification').orderByValue().equalTo(token).once('value', (snapshot) => {
-          if (!snapshot.exists()) {
-            console.log('Salvando token no database...')
-            this.$db.ref('tokens_notification').push(token)
-          } else {
-            console.log('Já existe.')
-          }
-        })
-        console.log(token)
-      })
-    },
 
     receber_notificacoes () {
-      if (this.$refs.toggle_ntf.value) {
+      var that = this
+      var OneSignal = window.OneSignal
+      if (that.$refs.toggle_ntf.value) {
         // Desativar notificacoes
-        this.$msg.getToken().then((token) => {
-          console.log(token)
-          window.localStorage.setItem('notification-permission', 'denied')
-          this.$db.ref('tokens_notification').orderByValue().equalTo(token).once('value', (snapshot) => {
-            let key = Object.keys(snapshot.val())[0]
-            this.$db.ref('tokens_notification').child(key).remove()
-            console.log('token removido')
-          })
-        })
-        this.notifications = false
-        this.$q.notify({
+        OneSignal.setSubscription(false)
+        that.notifications = false
+        that.$q.notify({
           message: 'Notificações desabilitadas.',
           color: 'negative',
           position: 'center',
@@ -285,38 +213,71 @@ export default {
         })
       } else {
         // Ativar notificacoes
-        console.log(Notification.permission)
-        if (Notification.permission === 'granted') {
-          window.localStorage.setItem('notification-permission', 'granted')
-          this.handleTokenRefresh()
-          this.notifications = true
-          this.$q.notify({
-            message: 'Notificações habilitadas.',
-            color: 'positive',
-            position: 'center',
-            icon: 'chat'
-          })
-        } else if (Notification.permission === 'denied') {
-          alert('Você deve limpar a configuração de notificações do App para poder habilitar novamente.')
-          this.notifications = false
-        } else if (Notification.permission === 'default') {
-          Notification.requestPermission().then((choice) => {
-            if (choice === 'granted') {
-              window.localStorage.setItem('notification-permission', 'granted')
-              this.handleTokenRefresh()
-              this.notifications = true
-              this.$q.notify({
-                message: 'Notificações habilitadas.',
-                color: 'positive',
-                position: 'center',
-                icon: 'chat'
-              })
-            } else {
-              window.localStorage.setItem('notification-permission', 'denied')
-              this.notifications = false
-            }
-          })
-        }
+        OneSignal.push(function () {
+          var isPushSupported = OneSignal.isPushNotificationsSupported()
+          if (isPushSupported) {
+            // Push notifications are supported
+            OneSignal.push(['getNotificationPermission', function (permission) {
+              if (permission === 'granted') {
+                OneSignal.push(function () {
+                  OneSignal.isPushNotificationsEnabled().then((isEnabled) => {
+                    if (!isEnabled) {
+                      OneSignal.setSubscription(true)
+                      that.notifications = true
+                      that.$q.notify({
+                        message: 'Notificações habilitadas.',
+                        color: 'positive',
+                        position: 'center',
+                        icon: 'chat'
+                      })
+                    } else {
+                      that.notifications = true
+                    }
+                  })
+                })
+              } else if (permission === 'denied') {
+                alert('Você deve limpar a configuração de notificações do App para poder habilitar novamente.')
+                that.notifications = false
+              } else if (permission === 'default') {
+                OneSignal.push(function () {
+                  OneSignal.showSlidedownPrompt({ force: true })
+                })
+                OneSignal.push(function () {
+                  OneSignal.on('popoverAllowClick', function () {
+                    setTimeout(function () {
+                      if (Notification.permission === 'granted') {
+                        OneSignal.setSubscription(true)
+                        that.notifications = true
+                        that.$q.notify({
+                          message: 'Notificações habilitadas.',
+                          color: 'positive',
+                          position: 'center',
+                          icon: 'chat'
+                        })
+                      } else {
+                        that.notifications = false
+                      }
+                    }, 5000)
+                  })
+                })
+                OneSignal.push(function () {
+                  OneSignal.on('popoverCancelClick', function () {
+                    that.notifications = false
+                  })
+                })
+              }
+            }])
+          } else {
+            // Push notifications are not supported
+            that.$q.notify({
+              message: 'Infelizmente as notificações ainda não funcionam no iPhone, mas no ícone 🔔 aqui em cima você verá todas elas!',
+              color: 'negative',
+              position: 'center',
+              icon: 'chat',
+              html: true
+            })
+          }
+        })
       }
     }
   }

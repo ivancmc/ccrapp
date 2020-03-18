@@ -20,6 +20,7 @@ const routes = [
     children: [
       {
         path: '/login',
+        name: 'login',
         component: () => import('pages/user/Login.vue'),
         meta: {
           title: 'Acesso'
@@ -30,6 +31,15 @@ const routes = [
         component: () => import('pages/user/ResetPwd.vue'),
         meta: {
           title: 'Nova senha'
+        }
+      },
+      {
+        path: '/user',
+        name: 'user',
+        component: () => import('pages/user/User.vue'),
+        meta: {
+          title: 'Meus dados',
+          authRequired: true
         }
       },
       {
@@ -169,16 +179,15 @@ const routes = [
     ]
   },
   {
-    path: '/notificar',
+    path: '/config',
     component: () => import('layouts/MyLayout.vue'),
     children: [
       {
         path: '',
-        name: 'notificar',
-        component: () => import('pages/Notificar.vue'),
+        name: 'config',
+        component: () => import('pages/Config.vue'),
         meta: {
-          title: 'Notificar',
-          authRequired: true
+          title: 'Preferências'
         }
       }
     ]

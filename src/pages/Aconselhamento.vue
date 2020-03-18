@@ -1,257 +1,255 @@
 <template>
   <q-page>
-    <q-pull-to-refresh @refresh="refresh">
-      <div class="q-pa-md q-gutter-md row justify-center">
-        <div
-          class=""
-          style="min-width: 342px"
-          v-if="user && admin"
-          >
-          <q-card
-            class="q-pa-md q-mb-lg"
-            inline
-            color="white"
-          >
-            <q-card-section class='text-center'>
-              <div class="text-subtitle2">Agenda do Pastor</div>
-            </q-card-section>
+    <div class="q-pa-md q-gutter-md row justify-center">
+      <div
+        class=""
+        style="min-width: 342px"
+        v-if="user && admin"
+        >
+        <q-card
+          class="q-pa-md q-mb-lg"
+          inline
+          color="white"
+        >
+          <q-card-section class='text-center'>
+            <div class="text-subtitle2">Agenda do Pastor</div>
+          </q-card-section>
 
-            <q-separator />
-            <div>
-              <q-form
-                @submit="disponibilizar"
-                @reset="limparForm1"
-                class="q-gutter-sm q-pa-sm"
-              >
-                <q-input
-                  ref="input_dia"
-                  label='Data'
-                  outlined
-                  v-model="date"
-                  lazy-rules
-                  :rules="[val => !!val || 'Defina uma data.']"
-                  mask="##/##/####">
-                  <template v-slot:append>
-                    <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                        <q-date
-                          title="Data"
-                          v-model="date"
-                          @input="() => {
-                            $refs.qDateProxy.hide()
-                            $refs.input_dia.blur()
-                          }"
-                          mask="DD/MM/YYYY"
-                          minimal
-                        />
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-                <q-select
-                    ref="select_hour"
-                    outlined
-                    v-model="hours"
-                    multiple
-                    :options="horarios"
-                    label="Horários"
-                    separator
-                    lazy-rules
-                    :rules="[val => val && val.length > 0 || 'Defina um horário.']"
-                  >
-                  <template v-slot:option="scope">
-                    <q-item
-                      v-bind="scope.itemProps"
-                      v-on="scope.itemEvents"
-                    >
-                      <q-item-section side>
-                        <q-checkbox v-model="hours" :val="scope.opt" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label v-html="scope.opt" ></q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </template>
-                </q-select>
-                <q-checkbox v-model="extra" label="Fila de espera" />
-                <div>
-                  <q-btn label="Disponibilizar" type="submit" color="primary"/>
-                  <q-btn label="Limpar" type="reset" color="primary" flat class="q-ml-sm" />
-                </div>
-              </q-form>
-            </div>
-            <br />
-            <div style="width: 100%;">
-              <q-markup-table dense separator="cell" v-if="agenda">
-                <thead>
-                  <tr class="bg-grey text-white">
-                    <th class="text-center text-black">Data</th>
-                    <th class="text-center text-black">Horários</th>
-                    <th class="text-center text-black">Extras</th>
-                    <th class="text-center text-black">Excluir</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="disponib of agenda" :key="disponib['.key']">
-                    <td class="text-center">{{ dia_mes_ano(disponib.data) }}</td>
-                    <td class="text-center">{{ disponib.horarios }}</td>
-                    <td class="text-center">{{ disponib.extra ? "Sim" : "Não" }}</td>
-                    <td class="text-center"><q-btn dense @click="remove_disponib(disponib.data)" flat icon="delete_forever" /></td>
-                  </tr>
-                </tbody>
-              </q-markup-table>
-            </div>
-          </q-card>
-        </div>
-        <div class="" style="min-width: 342px">
-          <q-card
-            class="q-pa-md q-mb-lg"
-            inline
-            color="white"
-          >
-            <q-card-section class='text-center'>
-              <div class="text-subtitle2">Agendamento</div>
-            </q-card-section>
-
-            <q-separator />
-            <div>
-              <q-form
-                @submit="agendar"
-                @reset="limparForm2"
-                class="q-gutter-sm q-pa-sm"
-              >
-                <q-input
-                v-model="nome"
-                ref="input_nome"
-                label="Nome *"
-                :rules="[val => val && val.length > 0 || 'Por favor digite seu nome']"
+          <q-separator />
+          <div>
+            <q-form
+              @submit="disponibilizar"
+              @reset="limparForm1"
+              class="q-gutter-sm q-pa-sm"
+            >
+              <q-input
+                ref="input_dia"
+                label='Data'
+                outlined
+                v-model="date"
                 lazy-rules
-                clearable
-                />
-                <q-select
-                    outlined
-                    label="Data"
-                    ref="input_data"
-                    v-model="data"
-                    :options="datas_disponiveis"
-                    separator
-                    @input="() => {
-                      mostra_horarios(data)
-                      $refs.input_data.blur()
-                    }"
-                    :rules="[val => !!val || 'Defina uma data.']"
-                    lazy-rules
-                  />
-                <q-select
-                    outlined
-                    label="Horário"
-                    ref="input_hora"
-                    v-model="hora"
-                    :options="horarios_disponiveis"
-                    separator
-                    :rules="[val => !!val || 'Defina um horário.']"
-                    lazy-rules
-                    v-if="this.hora_disponivel == true"
-                  />
-                <div>
-                  <q-btn label="Agendar" type="submit" color="primary"/>
-                  <q-btn label="Limpar" type="reset" color="primary" flat class="q-ml-sm" />
-                </div>
-              </q-form>
-            </div>
-            <br />
-            <div style="width: 100%;">
-              <q-markup-table dense separator="cell" v-if="aconselhamentos_marcados">
-                <thead>
-                  <tr class="bg-grey text-white">
-                    <th class="text-center text-black">Data</th>
-                    <th class="text-center text-black">Horário</th>
-                    <th class="text-center text-black">Nome</th>
-                    <th class="text-center text-black" v-if="uid">Excluir</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="agendado of aconselhamentos_marcados" :key="agendado['.key']">
-                    <td class="text-center">{{ dia_mes_ano(agendado.data) }}</td>
-                    <td class="text-center">{{ agendado.horario }}</td>
-                    <td class="text-center">{{ agendado.nome }}</td>
-                    <td class="text-center" v-if="uid">
-                      <q-btn dense @click="desmarcar(agendado.order)" flat icon="delete_forever" v-if="admin || (uid === agendado.uid)"/>
-                    </td>
-                  </tr>
-                </tbody>
-              </q-markup-table>
-            </div>
-            <div style="width: 100%;" v-if="admin">
-              <q-toggle
-                v-model="mostrar_historico"
-                label="Mostrar histórico"
-              />
-              <q-markup-table dense separator="cell" v-show="mostrar_historico" v-if="historico">
-                <thead>
-                  <tr class="bg-grey text-white">
-                    <th class="text-center text-black">Data</th>
-                    <th class="text-center text-black">Horário</th>
-                    <th class="text-center text-black">Nome</th>
-                    <th class="text-center text-black">Excluir</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="agendado of historico" :key="agendado['.key']">
-                    <td class="text-center">{{ dia_mes_ano(agendado.data) }}</td>
-                    <td class="text-center">{{ agendado.horario }}</td>
-                    <td class="text-center">{{ agendado.nome }}</td>
-                    <td class="text-center"><q-btn dense @click="desmarcar(agendado.order)" flat icon="delete_forever"/></td>
-                  </tr>
-                </tbody>
-              </q-markup-table>
-              <p v-else v-show="mostrar_historico">Não há histórico.</p>
-            </div>
-          </q-card>
-        </div>
-
-        <div
-          style="min-width: 342px; margin-bottom: 24px;"
-          v-if="aconselhamentos_extras">
-          <q-card
-            class="q-pa-md q-mb-lg"
-            inline
-            color="white"
-          >
-            <q-card-section class='text-center'>
-              <div class="text-subtitle2">Lista de espera</div>
-            </q-card-section>
-
-            <q-separator />
-            <div style="width: 100%;">
-              <q-markup-table dense separator="cell">
-                <thead>
-                  <tr class="bg-grey text-white">
-                    <th class="text-center text-black">Data</th>
-                    <th class="text-center text-black">Ordem</th>
-                    <th class="text-center text-black">Nome</th>
-                    <th class="text-center text-black" v-if="uid">Excluir</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="agendado of aconselhamentos_extras" :key="agendado['.key']">
-                    <td class="text-center">{{ dia_mes_ano(agendado.data) }}</td>
-                    <td class="text-center">{{ agendado.ordem_espera }}</td>
-                    <td class="text-center">{{ agendado.nome }}</td>
-                    <td class="text-center" v-if="uid">
-                      <q-btn dense @click="sairDaFila(agendado.order)" flat icon="delete_forever" v-if="admin || (uid === agendado.uid)" />
-                    </td>
-                  </tr>
-                </tbody>
-              </q-markup-table>
-            </div>
-          </q-card>
-        </div>
+                :rules="[val => !!val || 'Defina uma data.']"
+                mask="##/##/####">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                      <q-date
+                        title="Data"
+                        v-model="date"
+                        @input="() => {
+                          $refs.qDateProxy.hide()
+                          $refs.input_dia.blur()
+                        }"
+                        mask="DD/MM/YYYY"
+                        minimal
+                      />
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+              <q-select
+                  ref="select_hour"
+                  outlined
+                  v-model="hours"
+                  multiple
+                  :options="horarios"
+                  label="Horários"
+                  separator
+                  lazy-rules
+                  :rules="[val => val && val.length > 0 || 'Defina um horário.']"
+                >
+                <template v-slot:option="scope">
+                  <q-item
+                    v-bind="scope.itemProps"
+                    v-on="scope.itemEvents"
+                  >
+                    <q-item-section side>
+                      <q-checkbox v-model="hours" :val="scope.opt" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label v-html="scope.opt" ></q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <q-checkbox v-model="extra" label="Fila de espera" />
+              <div>
+                <q-btn label="Disponibilizar" type="submit" color="primary"/>
+                <q-btn label="Limpar" type="reset" color="primary" flat class="q-ml-sm" />
+              </div>
+            </q-form>
+          </div>
+          <br />
+          <div style="width: 100%;">
+            <q-markup-table dense separator="cell" v-if="agenda">
+              <thead>
+                <tr class="bg-grey text-white">
+                  <th class="text-center text-black">Data</th>
+                  <th class="text-center text-black">Horários</th>
+                  <th class="text-center text-black">Extras</th>
+                  <th class="text-center text-black">Excluir</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="disponib of agenda" :key="disponib['.key']">
+                  <td class="text-center">{{ dia_mes_ano(disponib.data) }}</td>
+                  <td class="text-center">{{ disponib.horarios }}</td>
+                  <td class="text-center">{{ disponib.extra ? "Sim" : "Não" }}</td>
+                  <td class="text-center"><q-btn dense @click="remove_disponib(disponib.data)" flat icon="delete_forever" /></td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </div>
+        </q-card>
       </div>
-      <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[5, 5]">
-        <q-btn fab icon="keyboard_arrow_up" color="blue-8" class="shadow-5" />
-      </q-page-scroller>
-    </q-pull-to-refresh>
+      <div class="" style="min-width: 342px">
+        <q-card
+          class="q-pa-md q-mb-lg"
+          inline
+          color="white"
+        >
+          <q-card-section class='text-center'>
+            <div class="text-subtitle2">Agendamento</div>
+          </q-card-section>
+
+          <q-separator />
+          <div>
+            <q-form
+              @submit="agendar"
+              @reset="limparForm2"
+              class="q-gutter-sm q-pa-sm"
+            >
+              <q-input
+              v-model="nome"
+              ref="input_nome"
+              label="Nome *"
+              :rules="[val => val && val.length > 0 || 'Por favor digite seu nome']"
+              lazy-rules
+              clearable
+              />
+              <q-select
+                  outlined
+                  label="Data"
+                  ref="input_data"
+                  v-model="data"
+                  :options="datas_disponiveis"
+                  separator
+                  @input="() => {
+                    mostra_horarios(data)
+                    $refs.input_data.blur()
+                  }"
+                  :rules="[val => !!val || 'Defina uma data.']"
+                  lazy-rules
+                />
+              <q-select
+                  outlined
+                  label="Horário"
+                  ref="input_hora"
+                  v-model="hora"
+                  :options="horarios_disponiveis"
+                  separator
+                  :rules="[val => !!val || 'Defina um horário.']"
+                  lazy-rules
+                  v-if="this.hora_disponivel == true"
+                />
+              <div>
+                <q-btn label="Agendar" type="submit" color="primary"/>
+                <q-btn label="Limpar" type="reset" color="primary" flat class="q-ml-sm" />
+              </div>
+            </q-form>
+          </div>
+          <br />
+          <div style="width: 100%;">
+            <q-markup-table dense separator="cell" v-if="aconselhamentos_marcados">
+              <thead>
+                <tr class="bg-grey text-white">
+                  <th class="text-center text-black">Data</th>
+                  <th class="text-center text-black">Horário</th>
+                  <th class="text-center text-black">Nome</th>
+                  <th class="text-center text-black" v-if="uid">Excluir</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="agendado of aconselhamentos_marcados" :key="agendado['.key']">
+                  <td class="text-center">{{ dia_mes_ano(agendado.data) }}</td>
+                  <td class="text-center">{{ agendado.horario }}</td>
+                  <td class="text-center">{{ agendado.nome }}</td>
+                  <td class="text-center" v-if="uid">
+                    <q-btn dense @click="desmarcar(agendado.order)" flat icon="delete_forever" v-if="admin || (uid === agendado.uid)"/>
+                  </td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </div>
+          <div style="width: 100%;" v-if="admin">
+            <q-toggle
+              v-model="mostrar_historico"
+              label="Mostrar histórico"
+            />
+            <q-markup-table dense separator="cell" v-show="mostrar_historico" v-if="historico">
+              <thead>
+                <tr class="bg-grey text-white">
+                  <th class="text-center text-black">Data</th>
+                  <th class="text-center text-black">Horário</th>
+                  <th class="text-center text-black">Nome</th>
+                  <th class="text-center text-black">Excluir</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="agendado of historico" :key="agendado['.key']">
+                  <td class="text-center">{{ dia_mes_ano(agendado.data) }}</td>
+                  <td class="text-center">{{ agendado.horario }}</td>
+                  <td class="text-center">{{ agendado.nome }}</td>
+                  <td class="text-center"><q-btn dense @click="desmarcar(agendado.order)" flat icon="delete_forever"/></td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+            <p v-else v-show="mostrar_historico">Não há histórico.</p>
+          </div>
+        </q-card>
+      </div>
+
+      <div
+        style="min-width: 342px; margin-bottom: 24px;"
+        v-if="aconselhamentos_extras">
+        <q-card
+          class="q-pa-md q-mb-lg"
+          inline
+          color="white"
+        >
+          <q-card-section class='text-center'>
+            <div class="text-subtitle2">Lista de espera</div>
+          </q-card-section>
+
+          <q-separator />
+          <div style="width: 100%;">
+            <q-markup-table dense separator="cell">
+              <thead>
+                <tr class="bg-grey text-white">
+                  <th class="text-center text-black">Data</th>
+                  <th class="text-center text-black">Ordem</th>
+                  <th class="text-center text-black">Nome</th>
+                  <th class="text-center text-black" v-if="uid">Excluir</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="agendado of aconselhamentos_extras" :key="agendado['.key']">
+                  <td class="text-center">{{ dia_mes_ano(agendado.data) }}</td>
+                  <td class="text-center">{{ agendado.ordem_espera }}</td>
+                  <td class="text-center">{{ agendado.nome }}</td>
+                  <td class="text-center" v-if="uid">
+                    <q-btn dense @click="sairDaFila(agendado.order)" flat icon="delete_forever" v-if="admin || (uid === agendado.uid)" />
+                  </td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </div>
+        </q-card>
+      </div>
+    </div>
+    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[5, 5]">
+      <q-btn fab icon="keyboard_arrow_up" color="blue-8" class="shadow-5" />
+    </q-page-scroller>
   </q-page>
 </template>
 

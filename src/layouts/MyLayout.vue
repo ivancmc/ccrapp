@@ -70,6 +70,9 @@
   </q-layout>
 </template>
 <style>
+.q-toolbar__title {
+  margin-right: -34px;
+}
 .eapp-popup-content-blocks-container-component {
     padding: 15px !important;
 }

@@ -1,6 +1,19 @@
 import { register } from 'register-service-worker'
 import { Notify } from 'quasar'
 
+// function forceUpdate () {
+//   // Força atualização quando há modificação
+//   if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.getRegistrations().then(function (registrations) {
+//       for (let registration of registrations) {
+//         if (registration.waiting) {
+//           registration.update()
+//         }
+//       }
+//     })
+//   }
+// }
+
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
 // ServiceWorkerRegistration: https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration
@@ -36,7 +49,9 @@ register('/OneSignalSDKWorker.js', {
       message: 'Nova versão do App disponível.',
       closeBtn: 'Atualizar',
       timeout: 10000,
+      progress: true,
       onDismiss () {
+        // forceUpdate()
         location.reload(true)
       }
     })
