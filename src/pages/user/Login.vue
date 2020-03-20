@@ -25,6 +25,7 @@
             <q-input
             v-model="email"
             label="E-mail *"
+            ref="input_email"
             @keyup.enter="entrar"
             lazy-rules
             :rules="[val => val && val.length > 0 || 'Por favor digite seu e-mail', val => val.includes('@') && val.includes('.') || 'Digite um e-mail válido']"
@@ -34,6 +35,7 @@
             v-model="senha"
             type="password"
             label="Senha *"
+            ref="input_senha"
             @keyup.enter="entrar"
             lazy-rules
             :rules="[
@@ -139,6 +141,8 @@ export default {
 
   methods: {
     registrar () {
+      this.$refs.input_email.validate()
+      this.$refs.input_senha.validate()
       this['loading2'] = true
       this.$firebase.auth().createUserWithEmailAndPassword(this.email, this.senha).then(
         (user) => {
@@ -163,9 +167,13 @@ export default {
           // console.log(err.message)
         }
       )
+      this.$refs.input_email.resetValidation()
+      this.$refs.input_senha.resetValidation()
     },
 
     entrar () {
+      this.$refs.input_email.validate()
+      this.$refs.input_senha.validate()
       this['loading1'] = true
       this.$firebase.auth().signInWithEmailAndPassword(this.email, this.senha).then(
         (user) => {
@@ -199,6 +207,8 @@ export default {
           // console.log(err.message)
         }
       )
+      this.$refs.input_email.resetValidation()
+      this.$refs.input_senha.resetValidation()
     },
 
     resetar_senha () {
