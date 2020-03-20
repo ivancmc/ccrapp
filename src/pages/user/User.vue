@@ -7,6 +7,11 @@
           color="white"
           style="min-width: 342px"
         >
+          <q-card-section class='text-center'>
+            <div class="text-subtitle2">Meus dados</div>
+          </q-card-section>
+
+          <q-separator />
           <q-card-section
             class="q-pa-md"
             style="margin:auto; width:max-content"
@@ -88,7 +93,7 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'Usuário',
   data () {
     return {
       user: this.$firebase.auth().currentUser,

@@ -38,7 +38,7 @@ const routes = [
         name: 'user',
         component: () => import('pages/user/User.vue'),
         meta: {
-          title: 'Meus dados',
+          title: 'Usuário',
           authRequired: true
         }
       },

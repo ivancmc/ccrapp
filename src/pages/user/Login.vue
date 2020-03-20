@@ -104,7 +104,14 @@ export default {
       loading2: false,
       codigo: '',
       user: this.$firebase.auth().currentUser,
-      notifications: false
+      notifications: false,
+      error_auth: {
+        invalid_email: 'O endereço de email está mal formatado.',
+        user_not_found: 'Não há registro de usuário correspondente. O usuário pode ter sido excluído.',
+        wrong_password: 'Senha inválida.',
+        weak_password: 'A senha deve conter no mínimo 6 caracteres.',
+        email_already_in_use: 'Este email já está em uso por outra conta.'
+      }
     }
   },
 
@@ -146,14 +153,14 @@ export default {
         (err) => {
           this.codigo = err.code.split('/')[1].replace(/-/g, '_')
           this.$q.notify({
-            message: 'Ops.. algo deu errado: ' + this.$q.lang.auth[this.codigo],
+            message: this.error_auth[this.codigo],
             color: 'negative',
             position: 'center',
             icon: 'error'
           })
           this['loading2'] = false
-          console.log(this.codigo)
-          console.log(err.message)
+          // console.log(this.codigo)
+          // console.log(err.message)
         }
       )
     },
@@ -182,14 +189,14 @@ export default {
         (err) => {
           this.codigo = err.code.split('/')[1].replace(/-/g, '_')
           this.$q.notify({
-            message: 'Ops.. algo deu errado: ' + this.$q.lang.auth[this.codigo],
+            message: this.error_auth[this.codigo],
             color: 'negative',
             position: 'center',
             icon: 'assignment_late'
           })
           this['loading1'] = false
-          console.log(this.codigo)
-          console.log(err.message)
+          // console.log(this.codigo)
+          // console.log(err.message)
         }
       )
     },

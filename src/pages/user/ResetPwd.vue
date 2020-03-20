@@ -44,7 +44,14 @@ export default {
     return {
       email: '',
       loading: false,
-      codigo: ''
+      codigo: '',
+      error_auth: {
+        invalid_email: 'O endereço de email está mal formatado.',
+        user_not_found: 'Não há registro de usuário correspondente. O usuário pode ter sido excluído.',
+        wrong_password: 'Senha inválida.',
+        weak_password: 'A senha deve conter no mínimo 6 caracteres.',
+        email_already_in_use: 'Este email já está em uso por outra conta.'
+      }
     }
   },
   methods: {
@@ -62,7 +69,7 @@ export default {
         (err) => {
           this.codigo = err.code.split('/')[1].replace(/-/g, '_')
           this.$q.notify({
-            message: 'Algo deu errado. ' + this.$q.lang.auth[this.codigo],
+            message: this.error_auth[this.codigo],
             color: 'negative',
             position: 'center'
           })
