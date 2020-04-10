@@ -8,6 +8,7 @@
           style="min-width: 342px"
         >
           <q-card-section class='text-center'>
+            <q-img :src="user.photoURL" style="border-radius: 10px; height: 100px; width: 100px; margin-bottom: 15px;" v-if="user.photoURL" />
             <div class="text-subtitle2">Meus dados</div>
           </q-card-section>
 
@@ -16,7 +17,6 @@
             class="q-pa-md"
             style="margin:auto; width:max-content"
           >
-            <!-- <q-icon name="assignment_ind" style="font-size: 10em;" /> -->
             <q-input
             v-model="user.displayName"
             label="Nome"
@@ -73,7 +73,7 @@
           </div>
         </q-card>
       </div>
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-page-sticky position="bottom-right" :offset="[8, 8]" v-if="admin" >
         <q-fab
           icon="settings"
           color="grey-7"
@@ -138,10 +138,15 @@ export default {
     },
 
     sair () {
+      var name = ''
+      if (this.user.displayName) {
+        let _name = this.user.displayName.split(' ')
+        name = _name[0]
+      }
       this.$firebase.auth().signOut().then(
         () => {
           this.$q.notify({
-            message: 'Até mais ' + this.perfil.nome,
+            message: 'Até mais ' + name + '!',
             color: 'blue-8',
             position: 'center',
             icon: 'pan_tool'

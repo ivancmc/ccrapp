@@ -11,7 +11,7 @@ export default {
   name: 'Com_almoco',
   data () {
     return {
-      alm1_visivel: false,
+      alm1_visivel: true,
       desc: [],
       precos: [],
       radios: [],

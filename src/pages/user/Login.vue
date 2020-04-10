@@ -58,6 +58,19 @@
                   </template>
                 </q-btn>
             </q-card-actions>
+            <div class="form-group" style="max-width: fit-content">
+              <p class="ride-line"><span>ou</span></p>
+              <q-btn class="fit q-mb-sm" color="white" text-color="grey-7" no-caps @click="entrar_google()">
+                <q-icon left name="img:statics/google.png" />
+                Fazer login com Google
+                <q-space />
+              </q-btn>
+              <q-btn class="fit" color="white" text-color="grey-7" no-caps @click="entrar_facebook()">
+                <q-icon left name="img:statics/facebook.png" />
+                Fazer login com Facebook
+                <q-space />
+              </q-btn>
+            </div>
           </q-form>
         </q-card>
         <q-card
@@ -93,6 +106,41 @@
 .onesignal-customlink-container {
   text-align: center;
 }
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group a {
+    text-decoration: none;
+}
+
+.ride-line {
+    position: relative;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 32px;
+}
+
+.ride-line:before {
+    content: '';
+    height: 1px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 12px;
+    background-color: #ededf4;
+}
+
+.ride-line span {
+    background-color: #fff;
+    padding-left: 12px;
+    padding-right: 12px;
+    display: inline-block;
+    line-height: 24px;
+    position: relative;
+    z-index: 1;
+    color: #747487;
+}
 </style>
 
 <script>
@@ -112,7 +160,11 @@ export default {
         user_not_found: 'Não há registro de usuário correspondente. O usuário pode ter sido excluído.',
         wrong_password: 'Senha inválida.',
         weak_password: 'A senha deve conter no mínimo 6 caracteres.',
-        email_already_in_use: 'Este email já está em uso por outra conta.'
+        email_already_in_use: 'Este email já está em uso por outra conta.',
+        account_exists_with_different_credential: 'Já existe uma conta com o mesmo email, mas com método de login diferente.',
+        popup_closed_by_user: 'A janela foi fechada antes de terminar a operação.',
+        cancelled_popup_request: 'A operação foi cancelada.',
+        network_request_failed: 'Um erro de rede ocorreu. Tente novamente.'
       }
     }
   },
@@ -176,19 +228,19 @@ export default {
       this.$refs.input_senha.validate()
       this['loading1'] = true
       this.$firebase.auth().signInWithEmailAndPassword(this.email, this.senha).then(
-        (user) => {
+        (result) => {
           let name = '. Por favor, preencha seu perfil.'
-          if (user.user.displayName) {
-            let _name = user.user.displayName.split(' ')
+          if (result.user.displayName) {
+            let _name = result.user.displayName.split(' ')
             name = ' ' + _name[0] + '!'
           }
           this.$q.notify({
-            message: 'Seja bem-vindo' + name,
+            message: 'Seja bem-vindo(a)' + name,
             color: 'positive',
             position: 'center',
             icon: 'assignment_turned_in'
           })
-          if (!user.user.displayName) {
+          if (!result.user.displayName) {
             this.$router.replace('/profile')
           } else {
             this.$router.replace('/')
@@ -213,6 +265,65 @@ export default {
 
     resetar_senha () {
       this.$router.replace('/reset_pwd')
+    },
+
+    entrar_google () {
+      var provider = new this.$firebase.auth.GoogleAuthProvider()
+      this.firebase_auth(provider)
+    },
+
+    entrar_facebook () {
+      var provider = new this.$firebase.auth.FacebookAuthProvider()
+      this.firebase_auth(provider)
+    },
+
+    firebase_auth (provider) {
+      this.$firebase.auth().signInWithPopup(provider).then(
+        (result) => {
+          var name = '. Por favor, preencha seu perfil.'
+          if (result.user.displayName) {
+            var _name = result.user.displayName.split(' ')
+            name = ' ' + _name[0] + '!'
+          }
+          this.$q.notify({
+            message: 'Seja bem-vindo(a)' + name,
+            color: 'positive',
+            position: 'center',
+            icon: 'assignment_turned_in'
+          })
+          if (!result.user.displayName) {
+            this.$router.replace('/profile')
+          } else {
+            var that = this
+            this.$db.ref('perfis').orderByChild('id').equalTo(result.user.uid).once('value', (snapshot) => {
+              if (!snapshot.exists()) {
+                let _newprofile = that.$db.ref('perfis').push()
+                _newprofile.setWithPriority({
+                  id: result.user.uid,
+                  nome: _name[0],
+                  sobrenome: _name[1],
+                  contato: '',
+                  nascimento: '',
+                  admin: false
+                }, _name[0])
+              }
+            })
+            this.$router.replace('/')
+          }
+        },
+        (err) => {
+          this.codigo = err.code.split('/')[1].replace(/-/g, '_')
+          this.$q.notify({
+            message: this.error_auth[this.codigo],
+            color: 'negative',
+            position: 'center',
+            icon: 'assignment_late'
+          })
+          this['loading1'] = false
+          console.log(this.codigo)
+          console.log(err.message)
+        }
+      )
     },
 
     receber_notificacoes () {

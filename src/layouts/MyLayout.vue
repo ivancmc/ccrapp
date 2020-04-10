@@ -64,7 +64,8 @@
 
     <q-page-container>
       <!-- Notificações -->
-      <div class="elfsight-app-20e26ec9-4e8b-40a7-835e-843dde958158"></div>
+      <div class="elfsight-app-20e26ec9-4e8b-40a7-835e-843dde958158 notify1" v-show="ntf1_visivel"></div>
+      <div class="elfsight-app-98ac863f-996b-4208-847e-ac840e4891ab notify2" v-show="!ntf1_visivel"></div>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -134,11 +135,30 @@ export default {
     return {
       leftDrawerOpen: false,
       menuList,
-      miniState: true
+      miniState: true,
+      ntf1_visivel: true
     }
   },
+
   methods: {
+    elfsight () {
+      var that = this
+      setTimeout(function () {
+        if (that.$el.querySelector('div.notify1').lastChild) {
+          if (that.$el.querySelector('div.notify1').lastChild.childElementCount === 0) {
+            that.ntf1_visivel = false
+          }
+        }
+        if (that.$el.querySelector("a[href*='elfsight']")) {
+          that.$el.querySelector("a[href*='elfsight']").style.display = 'none'
+        }
+      }, 3000)
+    },
     openURL
+  },
+
+  mounted: function () {
+    this.elfsight()
   }
 }
 </script>

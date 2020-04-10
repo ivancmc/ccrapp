@@ -11,6 +11,7 @@
               <th class="text-center text-black">Contato</th>
               <th class="text-center text-black">Nascimento</th>
               <th class="text-center text-black">Adm</th>
+              <th class="text-center text-black">Excluir</th>
             </tr>
           </thead>
           <tbody>
@@ -28,6 +29,7 @@
                   ref="toggle_adm"
                 />
               </td>
+              <td class="text-center"><q-btn dense @click="excluir_perfil(usuario.id)" flat icon="delete_forever" /></td>
             </tr>
           </tbody>
         </q-markup-table>
@@ -80,6 +82,30 @@ export default {
           this.usuarios = snapshot.val()
         })
       }
+    },
+
+    excluir_perfil (id) {
+      if (id !== this.user.uid) {
+        this.$db.ref('perfis').orderByChild('id').equalTo(id).once('child_added', (snapshot) => {
+          this.$db.ref('perfis').child(snapshot.key).remove()
+        })
+        this.$q.notify({
+          message: 'Usuário excluído!',
+          color: 'positive',
+          position: 'center',
+          icon: 'person_add_disabled'
+        })
+      } else {
+        this.$q.notify({
+          message: 'Você não pode fazer isso!',
+          color: 'negative',
+          position: 'center',
+          icon: 'error'
+        })
+      }
+      this.$db.ref('perfis').orderByChild('nome').on('value', (snapshot) => {
+        this.usuarios = snapshot.val()
+      })
     }
   }
 }

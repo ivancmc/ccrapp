@@ -21,7 +21,7 @@
           </q-item-section>
           <q-item-section>
             <q-item-label overline>TELEFONE</q-item-label>
-            <q-item-label><a href="tel:33700576" style="text-decoration: none; color: inherit;">(71) 3370-0576</a></q-item-label>
+            <q-item-label><a href="tel:33700576" style="text-decoration: none; color: inherit;">(071) 3370-0576</a></q-item-label>
           </q-item-section>
         </q-item>
         <q-item>

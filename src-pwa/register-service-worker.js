@@ -46,6 +46,7 @@ register('/OneSignalSDKWorker.js', {
   updated (registration) {
     console.log('New content is available; please refresh.')
     Notify.create({
+      position: 'top',
       message: 'Nova versão do App disponível.',
       closeBtn: 'Atualizar',
       timeout: 10000,
