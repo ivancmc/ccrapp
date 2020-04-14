@@ -8,7 +8,7 @@
           style="min-width: 342px"
         >
           <q-card-section class='text-center'>
-            <q-img :src="user.photoURL" style="border-radius: 10px; height: 100px; width: 100px; margin-bottom: 15px;" v-if="user.photoURL" />
+            <q-img :src="user.photoURL" style="border-radius: 50px; height: 100px; width: 100px; margin-bottom: 15px;" v-if="user.photoURL" />
             <div class="text-subtitle2">Meus dados</div>
           </q-card-section>
 

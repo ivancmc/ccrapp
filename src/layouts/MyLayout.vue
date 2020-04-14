@@ -144,8 +144,8 @@ export default {
     elfsight () {
       var that = this
       setTimeout(function () {
-        if (that.$el.querySelector('div.notify1').lastChild) {
-          if (that.$el.querySelector('div.notify1').lastChild.childElementCount === 0) {
+        if (that.$el.querySelector('div.notify1').firstChild) {
+          if (that.$el.querySelector('div.notify1').firstChild.childElementCount === 0) {
             that.ntf1_visivel = false
           }
         }

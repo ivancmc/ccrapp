@@ -91,12 +91,12 @@
                 ref="toggle_ntf"
               />
             </div>
+            <div style="max-width: 300px; height: fit-content; margin-top: 12px;" v-if="$q.platform.is.ios">
+              <q-separator />
+              <br />
+              <p>Infelizmente as notificações ainda não funcionam neste dispositivo, mas no ícone <q-icon name="notifications_active" /> aqui em cima você verá todas elas!</p>
+            </div>
           </q-card-section>
-          <div v-if="$q.platform.is.ios">
-            <q-separator />
-            <br />
-            <p>Infelizmente as notificações ainda não funcionam neste dispositivo, mas no ícone <q-icon name="notifications_active" /> aqui em cima você verá todas elas!</p>
-          </div>
         </q-card>
       </div>
     </q-page>
