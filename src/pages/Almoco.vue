@@ -7,7 +7,7 @@
     >
       <div v-show="showData">
         <div v-show="!showErro" class="frame">
-          <iframe id="frame_almoco" src="https://tiny.cc/AlmocoCCRSSA" width="100%" height="auto" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
+          <iframe id="frame_almoco" src="https://tiny.cc/ReservarAlmocoCCR" width="100%" height="auto" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
         </div>
         <div v-show="showErro" class="fixed-center text-center">
           <p>
@@ -60,7 +60,8 @@ export default {
       let interval = 0
       let tempo = 0
       interval = setInterval(function () {
-        if (that.$el.querySelector('iframe').contentWindow.frames.length !== 0) {
+        // if (that.$el.querySelector('iframe').contentWindow.frames.length !== 0) {
+        if (that.$el.querySelector('iframe') !== 0) {
           clearInterval(interval)
           that.visible = false
           that.showData = true
