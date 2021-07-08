@@ -2,6 +2,8 @@
 
 App da Comunidade Cristã Renovada
 
+https://ccrapp.web.app/#/
+
 ## Install the dependencies
 ```bash
 yarn
